@@ -1,4 +1,5 @@
-#include <iostream.h>
+#include <iostream>
+using namespace std;
 
 char compare (int x, int y)
 {
@@ -7,7 +8,7 @@ char compare (int x, int y)
        else return '=';
 }
 
-void main()
+int main()
 {
 char temp;
 temp = compare (3, 5); cout << temp << "\n";

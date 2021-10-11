@@ -1,4 +1,6 @@
-#include <iostream.h>
+#include <iostream>
+
+using namespace std;
 
 int count = 0;
 
@@ -36,7 +38,7 @@ float rsum (float *a, const int n)
    }
 }
 
-void main()
+int main()
 {
  float b[10];
  b[0] = 1.3; b[1] = 2.43; b[2] = 3.1; b[3] = 4;

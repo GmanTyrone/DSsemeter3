@@ -1,4 +1,6 @@
-#include <iostream.h>
+#include <iostream>
+
+using namespace std;
 
 char compare (int x, int y)
 {
@@ -22,7 +24,7 @@ int BinarySearch (int *a, int x, const int left, const int right)
 }// end of BinarySearch
 
 
-void main()
+int main()
 {
    int b[10];
    b[0] = 2; b[1] = 4; b[2] = 5; b[3] = 7; b[4] = 10;
