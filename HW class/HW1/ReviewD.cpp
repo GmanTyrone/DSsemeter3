@@ -9,7 +9,7 @@ int calculate(char operador, int a, int b)
             throw operador;
         }
         catch(char x){
-            cout<<"Invalid operator "<<x<<endl;
+            cerr<<"Invalid operator "<<x<<endl;
             return NULL;
         }
     switch(operador){
@@ -24,7 +24,7 @@ int calculate(char operador, int a, int b)
             if(b==0)throw &operador;
             return a/b;
         }catch(char* operador){
-            cout<<"Division by 0"<<endl;
+            cerr<<"Division by 0"<<endl;
             return NULL;
         }
     }
