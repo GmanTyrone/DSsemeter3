@@ -21,7 +21,7 @@ int main()
     while(getline(poem,sentence)){
         for(int k=0;k<sentence.size();k++){
 
-            int c=getchar();
+            int c=sentence[k];
 
 
             //FIRST IFS
