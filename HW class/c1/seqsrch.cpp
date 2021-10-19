@@ -1,6 +1,6 @@
-#include <iostream.h>
+#include <iostream>
 #include <sys\timeb.h>
-
+using namespace std;
 int seqsearch (int *a, const int n, const int x)  //a[0], ..., a[n]
 {
    int i = n; a[0] = x;
@@ -13,11 +13,11 @@ void TimeSearch() {
    int a[1001], n[20];
    for (int j = 1; j <= 1000; j++) // initialize a
       a[j] = j;
-   for (j = 0; j < 10; j++)  {// values of n
+   for (int j = 0; j < 10; j++)  {// values of n
       n[j] = 10*j; n[j+10] = 100 * (j+1);
    }
    cout << "n\ttime" << endl;
-   for(j = 0; j < 20; j++)  { // obtain computing times
+   for(int j = 0; j < 20; j++)  { // obtain computing times
        struct timeb start;
        struct timeb stop;
        ftime(&start); // get time
@@ -38,11 +38,11 @@ void TimeSearch2() {
    6000, 5000, 5000};
    for (int j = 1; j <= 1000; j++) // intialize z
       a[j] = j;
-   for (j = 0; j < 10; j++)  {// values of n
+   for (int j = 0; j < 10; j++)  {// values of n
       n[j] = 10*j; n[j+10] = 100 * (j+1);
    }
    cout << "\tn\ttotal\trunTime" << endl;
-   for(j = 0; j < 20; j++)  { // obtain computing times
+   for(int j = 0; j < 20; j++)  { // obtain computing times
        struct timeb start;
        struct timeb stop;
 
@@ -73,7 +73,7 @@ void TimeSearch3() {
        cout <<t1 << endl;
 }
 
-void main()
+int main()
 {
 //   TimeSearch3();
 

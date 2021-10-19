@@ -1,4 +1,5 @@
-#include <iostream.h>
+#include <iostream>
+using namespace std;
 
 void magic (int n)
 // create a magic square of size n, n is odd
@@ -17,7 +18,7 @@ void magic (int n)
   square[0][(n-1)/2] = 1; // middle of first row
 
   // i and j are current position
-  int key = 2; i = 0; int j = (n-1)/2;
+  int key = 2, i = 0, j = (n-1)/2;
   while (key <= n*n) {
   // move up and left
      if (i-1 < 0)  k = n-1; else k = i-1;
@@ -40,7 +41,7 @@ void magic (int n)
   }
 }
 
-void main()
+int main()
 {
    int n;
    cout << "Input an odd number > 0" << endl;

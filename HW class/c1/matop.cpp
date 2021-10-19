@@ -1,5 +1,5 @@
-#include <iostream.h>
-
+#include <iostream>
+using namespace std;
 void transpose (float (*a)[7], int n)
 {
   for (int i = 0; i < n-1; i++)
@@ -32,7 +32,7 @@ void prod (float (*a)[7], float (*b)[7], float (*c)[7], int m, int n, int p)
      }
 } // end of prod
 
-void main()
+int main()
 {
   float a[8][7], b[8][7], c[8][7];
   a[0][0] = 1; a[0][1] = 2; a[0][2] = 3;

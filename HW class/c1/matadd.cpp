@@ -1,5 +1,5 @@
-#include <iostream.h>
-
+#include <iostream>
+using namespace std;
 int count =0;
 
 void add (float (*a)[7], float (*b)[7], float (*c)[7], int m, int n)
@@ -37,7 +37,7 @@ void conly (float (*a)[7], float (*b)[7], float (*c)[7], int m, int n)
   count++;
 }
 
-main()
+int main()
 {
    float a[8][7], b[8][7], c[8][7];
    a[0][0] = 1.3; a[0][1] = 2.43; a[0][2] = 3.1;

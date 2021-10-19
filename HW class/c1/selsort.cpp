@@ -1,5 +1,5 @@
-#include <iostream.h>
-
+#include <iostream>
+using namespace std;
 void sort (int *a, int n)
 // sort the n integers a[0] to a[n-1] into nondecreasing order
 {
@@ -13,7 +13,7 @@ void sort (int *a, int n)
    }
 }
 
-void main()
+int main()
 {
 
 int array[100], i;

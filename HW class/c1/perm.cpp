@@ -1,5 +1,5 @@
-#include <iostream.h>
-
+#include <iostream>
+using namespace std;
 void perm (char *a, const int k, const int n) // n is the size of a
 // Generate all the permutations of a[k], ..., a[n-1].
 {
@@ -19,7 +19,7 @@ void perm (char *a, const int k, const int n) // n is the size of a
     } // end of else
 } // end of perm
 
-void main()
+int main()
 {
    char b[10];
    b[0] = 'a'; b[1] = 'b'; b[2] = 'c'; b[3] = 'd'; b[4] = 'e';

@@ -1,4 +1,5 @@
-#include <iostream.h>
+#include <iostream>
+using namespace std;
 
 void fibonacci (int n)
 // compute the Fibonacci number F sub n
@@ -17,7 +18,7 @@ void fibonacci (int n)
 } // end of fibonacci
 
 
-void main()
+int main()
 {
   int n;
   cout << "Input n " << endl;
