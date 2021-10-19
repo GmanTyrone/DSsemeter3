@@ -10,8 +10,7 @@ using namespace std;
 int main()
 {
     string sentence;
-    ifstream poem;
-    ofstream chart;
+    fstream poem, chart;
 
     int alfabeto[26]={0};
 
@@ -34,9 +33,10 @@ int main()
             if(c<26)alfabeto[c]++;
         }
     }
+    poem.close();
 
     //Printing it
-    chart.open("histograma.txt");
+    chart.open("histograma.txt",ios::out);
     for(int i=0;i<=25;i++){
         if(alfabeto[i]!=0){
             chart<<(char)(i+97);
