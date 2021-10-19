@@ -1,7 +1,7 @@
 #include <fstream>
 #include <string>
 #include <cstdio>
-
+#include <iostream>
 
 using namespace std;
 
@@ -29,7 +29,7 @@ int main()
             else if(c>96&&c<123)c-=97;
             else  c+=26;
 
-            //THEN WE DECIDE WHAT TO DO WITH THE IF
+            //THEN WE DECIDE WHAT TO DO WITH THE C
             if(c<26)alfabeto[c]++;
         }
     }
