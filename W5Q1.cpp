@@ -44,6 +44,14 @@ public:
 
 	int addElement(int e)
 	{
+	    //Checks if theres any element at all
+	    if(element==NULL)
+        {
+            element=new Node(e);
+            return true;
+        }
+
+        //Checks all the elements until the end to see if it is repeated
 	    bool found=false;
 	    Node *cur = element;
 		while(cur != NULL)
@@ -53,6 +61,8 @@ public:
 			}
 			cur = cur->next;
 		}
+
+		//If found then does nothing if not found then it is added
 		if(found)return false;
 		cur=new Node(e);
 		return true;
@@ -88,7 +98,7 @@ public:
 		}
 	}
 private:
-	Node *element;//=new Node();
+	Node *element=NULL;
 };
 
 int main()
