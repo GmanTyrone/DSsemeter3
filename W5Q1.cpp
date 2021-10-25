@@ -60,13 +60,17 @@ public:
 
 	Set *unions(const Set *b) const
 	{
+	    Set Juntos=Set(*this);
+	    Node *cur = b->element;
+		while(cur != NULL)
+		{
+			Juntos.addElement(cur->data);
+			cur = cur->next;
+		}
+		return &Juntos;
 	}
 
 	Set *intersetcions(const Set *b) const
-	{
-	}
-
-	Set *copyset(const Set*b)const
 	{
 	}
 
@@ -84,7 +88,7 @@ public:
 		}
 	}
 private:
-	Node *element=new Node();
+	Node *element;//=new Node();
 };
 
 int main()
@@ -102,14 +106,16 @@ int main()
 	b->addElement(5);
 	b->addElement(5);
 
-	c = a->unions(b);
-	c->listAll();
+	a->listAll();
 
+	//c = a->unions(b);
+	//c->listAll();
+/*
 	c = a->intersetcions(b);
 	c->listAll();
 
 	if(a->equivalent(b) == 0)
 		cout<<"Not equivalent.\n";
 	else
-		cout<<"Equivalent!\n";
+		cout<<"Equivalent!\n";*/
 }
