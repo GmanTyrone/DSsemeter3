@@ -45,7 +45,7 @@ public:
 	int addElement(int e)
 	{
 	    //Checks if theres any element at all
-	    if(element==NULL)
+	    if(element==nullptr)
         {
             element=new Node(e);
             return true;
@@ -53,12 +53,14 @@ public:
 
         //Checks all the elements until the end to see if it is repeated
 	    bool found=false;
-	    Node *cur = element;
-		while(cur != NULL)
+	    Node *cur;
+	    cur = element;
+		while(cur != nullptr)
 		{
 			if(cur->data==e){
                 found=true;
 			}
+			cout<<"current element: "<<cur->data<<endl;
 			cur = cur->next;
 		}
 
@@ -98,7 +100,7 @@ public:
 		}
 	}
 private:
-	Node *element=NULL;
+	Node *element=nullptr;
 };
 
 int main()
