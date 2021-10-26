@@ -113,10 +113,10 @@ int main()
 	a->addElement(1);
 	a->addElement(2);
 	a->addElement(3);
-	b->addElement(3);
+	/*b->addElement(3);
 	b->addElement(4);
 	b->addElement(5);
-	b->addElement(5);
+	b->addElement(5);*/
 
 	a->listAll();
 
