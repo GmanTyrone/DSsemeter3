@@ -45,7 +45,7 @@ public:
 	int addElement(int e)
 	{
 	    //Checks if theres any element at all
-	    if(element==nullptr)
+	    if(element==NULL)
         {
             element=new Node(e);
             return true;
@@ -55,7 +55,7 @@ public:
 	    bool found=false;
 	    Node *cur;
 	    cur = element;
-		while(cur != nullptr)
+		while(cur != NULL)
 		{
 			if(cur->data==e){
                 found=true;
@@ -100,7 +100,7 @@ public:
 		}
 	}
 private:
-	Node *element=nullptr;
+	Node *element=NULL;
 };
 
 int main()
