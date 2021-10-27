@@ -27,8 +27,7 @@ public:
             top=new Node;
             top->data=d;
             temp->next=top;
-            throw -1;
-            }catch(int e){return e;}
+            }catch (const std::bad_alloc& e){return -1;}
         }
         count++;
         return 1;
