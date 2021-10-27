@@ -20,12 +20,13 @@ public:
     }
     int push(int d)
     {
+        if(count==100)return -1;
         Node *temp=new Node();
         temp->data=d;
         temp->next=top;
         top=temp;
         count++;
-        return top->data;
+        return 1;
     }
 
     int *pop()
