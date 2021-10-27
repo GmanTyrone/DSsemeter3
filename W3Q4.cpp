@@ -22,13 +22,16 @@ public:
             top->data=d;
         }
         else{
+            try{
             Node *temp=top;
             top=new Node;
             top->data=d;
             temp->next=top;
+            throw -1;
+            }catch(int e){return e;}
         }
         count++;
-        return top->data;
+        return 1;
 	}
 	int *dequeue()
 	{
