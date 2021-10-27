@@ -83,14 +83,12 @@ public:
 	Set *intersetcions(const Set *b) const
 	{
 	    Set* Inter=new Set();
-	    for(Node* x=element; x != NULL;)
+	    for(Node* x=element; x != NULL;x=x->next)
         {
-            for(Node* y=b->element;y!=NULL;)
+            for(Node* y=b->element;y!=NULL;y=y->next)
             {
                 if(x->data==y->data)Inter->addElement(y->data);
-                y=y->next;
             }
-            x=x->next;
         }
         return Inter;
 	}
@@ -98,45 +96,27 @@ public:
 	bool equivalent(const Set *b) const
 	{
 
-	    //IF THE SETS ARE SAME SIZE AND ORDER
-	    /*Node* x=element;
-	    Node* y=b->element;
-	    while(x != NULL || y!=NULL)
-        {
-            if(x->data!=y->data)return false;
-            y=y->next;
-            x=x->next;
-        }
-        return true;*/
-
-
         //IF THE SETS ARE SAME SIZE ONLY ONE IS NEEDED
-        for(Node* x=element; x != NULL;)
+        for(Node* x=element; x != NULL;x=x->next)
         {
             bool flag=false;
-            for(Node* y=b->element;y!=NULL;)
+            for(Node* y=b->element;y!=NULL;y=y->next)
             {
                 if(x->data==y->data)flag=true;
-                y=y->next;
             }
             if(flag==false)return false;
-            x=x->next;
         }
-
 
         //IF NOT SAME SIZE ANOTHER ONE IS NEEDED TO MAKE SURE THEY'RE NOT SUBSETS
-        for(Node* x=b->element; x != NULL;)
+        for(Node* x=b->element; x != NULL;x=x->next)
         {
             bool flag=false;
-            for(Node* y=element;y!=NULL;)
+            for(Node* y=element;y!=NULL;y=y->next)
             {
                 if(x->data==y->data)flag=true;
-                y=y->next;
             }
             if(flag==false)return false;
-            x=x->next;
         }
-
         return true;
 	}
 
