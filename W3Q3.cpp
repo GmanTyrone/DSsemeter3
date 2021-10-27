@@ -20,11 +20,13 @@ public:
     }
     int push(int d)
     {
-        if(count==100)return -1;
+        try{
         Node *temp=new Node();
         temp->data=d;
         temp->next=top;
         top=temp;
+        throw -1;
+        }catch(int e){return e;}
         count++;
         return 1;
     }
