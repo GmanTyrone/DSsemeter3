@@ -108,8 +108,6 @@ public:
 	void printMaze()
 	{
 		int j, k;
-        int **temp[10];
-        temp = &maze;
 		for(j = 0;j < SIZE;j ++)
 		{
 			for(k = 0;k < SIZE;k ++)
