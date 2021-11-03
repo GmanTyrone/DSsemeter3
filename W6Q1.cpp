@@ -82,25 +82,33 @@ public:
 	[0][0] is start point and [s - 1][s - 1] is finish point.
 	Randomly generate 20% wall in the maze.
 	Make sure [0][0] and [s - 1][s - 1] are 0
-
-	動態配置一個二維的陣列，大小是 s * s ，用這個陣列表示迷宮的地圖
-	陣列中 0 的值表示可以移動的空間， 1 表示牆壁
-	[0][0] 的位置表示起點 [s - 1][s - 1] 的位置表示終點
-	請在迷宮中加入 20% 的牆壁
-	然後確定起點跟終點都是可以移動的位置
 	*/
 	void initMaze(int s)
 	{
+	    //Points to a memory space
+	    int *bloque = new int[s*s];
+        maze = new int* [s];
+        for(int i=0;i<s;++i){
+            (maze)[i]=&bloque[i*s];
+        }
+
+        //put 1s and 0s
+        srand((unsigned)time(0));
+        int x=rand()%(s*s-2)+1;
+        int unos=s*s/5;
+        while(unos>0)
+        {
+            x=rand()%(s*s-2)+1;
+            while(maze[x]==1)x=rand()%(s*s-2)+1;
+            maze[x]=1;
+            --unos;
+        }
 	}
 	/*
 	function getPath
 	This function will find a path between start point and finish point.
 	Return a list content the path information inside.
 	If there is no path between two point then the list will be empty.
-
-	這個函數會找到起點到終點間的一條路徑
-	回傳一個 list， List 包含路徑的資訊
-	如果找不到路徑的話 list 就會是空的
 	*/
 	List *getPath()
 	{
