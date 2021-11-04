@@ -74,6 +74,7 @@ public:
 	Maze()
 	{
 		initMaze(SIZE);
+		size=SIZE;
 	}
 	/*
 	function initMaze
@@ -85,6 +86,10 @@ public:
 	*/
 	void initMaze(int s)
 	{
+	    size=s;
+	    int j,k;
+
+
 	    //Points to a memory space
 	    int *bloque = new int[s*s];
         maze = new int* [s];
@@ -92,15 +97,20 @@ public:
             (maze)[i]=&bloque[i*s];
         }
 
+        //puts 0's
+        for(j = 0;j < size;j ++)for(k = 0;k < size;k ++)maze[j][k] == 0;
+
         //put 1s and 0s
         srand((unsigned)time(0));
         int x=rand()%(s*s-2)+1;
         int unos=s*s/5;
+
+
         while(unos>0)
         {
             x=rand()%(s*s-2)+1;
-            while(maze[x]==1)x=rand()%(s*s-2)+1;
-            maze[x]=1;
+            while(*maze[x]==1)x=rand()%(s*s-2)+1;
+            *maze[x]=1;
             --unos;
         }
 	}
@@ -116,9 +126,9 @@ public:
 	void printMaze()
 	{
 		int j, k;
-		for(j = 0;j < SIZE;j ++)
+		for(j = 0;j < size;j ++)
 		{
-			for(k = 0;k < SIZE;k ++)
+			for(k = 0;k < size;k ++)
 			{
 				if(maze[j][k] == 0)
 					cout<<" ";
@@ -130,6 +140,7 @@ public:
 	}
 private:
 	int **maze;
+	int size;
 };
 
 int main()
