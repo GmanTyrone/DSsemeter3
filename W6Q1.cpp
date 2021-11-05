@@ -46,6 +46,8 @@ public:
 	*/
 	void addElement(int r, int c)
 	{
+	    data[top]=Node(r,c);
+	    top++;
 	}
 	/*
 	function removeElement
@@ -54,6 +56,9 @@ public:
 	*/
 	Node *removeElement()
 	{
+	    if(top==0)return NULL;
+	    top--;
+	    return &data[top+1];
 	}
 	void printList()
 	{
@@ -98,19 +103,27 @@ public:
         }
 
         //puts 0's
-        for(j = 0;j < size;j ++)for(k = 0;k < size;k ++)maze[j][k] == 0;
+        for(j = 0;j < s;++j){
+                for(k = 0;k < s;++k){
+                        maze[j][k] == 0;
+                }
+        }
 
-        //put 1s and 0s
+        //puts 1's
         srand((unsigned)time(0));
-        int x=rand()%(s*s-2)+1;
+        int x,y;
         int unos=s*s/5;
 
 
         while(unos>0)
         {
-            x=rand()%(s*s-2)+1;
-            while(*maze[x]==1)x=rand()%(s*s-2)+1;
-            *maze[x]=1;
+            x=rand()%s;
+            y=rand()%s;
+            while(maze[x][y]==1||(x==0&&y==0)||(x==size-1&&y==size-1)){
+                    x=rand()%s;
+                    y=rand()%s;
+            }
+            maze[x][y]=1;
             --unos;
         }
 	}
@@ -131,9 +144,9 @@ public:
 			for(k = 0;k < size;k ++)
 			{
 				if(maze[j][k] == 0)
-					cout<<" ";
+					cout<<"0";
 				else if(maze[j][k] == 1)
-					cout<<"*";
+					cout<<"1";
 			}
 			cout<<"\n";
 		}
@@ -147,5 +160,5 @@ int main()
 {
 	Maze *maze = new Maze();
 	maze->printMaze();
-	maze->getPath()->printList();
+	//maze->getPath()->printList();
 }
