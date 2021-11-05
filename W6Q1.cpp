@@ -98,13 +98,13 @@ public:
 	    //Points to a memory space
 	    int *bloque = new int[s*s];
         maze = new int* [s];
-        for(int i=0;i<s;++i){
+        for(int i=0;i<s;i++){
             (maze)[i]=&bloque[i*s];
         }
 
         //puts 0's
-        for(j = 0;j < s;++j){
-                for(k = 0;k < s;++k){
+        for(j = 0;j < s;j++){
+                for(k = 0;k < s;k++){
                         maze[j][k] == 0;
                 }
         }
@@ -144,9 +144,9 @@ public:
 			for(k = 0;k < size;k ++)
 			{
 				if(maze[j][k] == 0)
-					cout<<"0";
+					cout<<" ";
 				else if(maze[j][k] == 1)
-					cout<<"1";
+					cout<<"*";
 			}
 			cout<<"\n";
 		}
