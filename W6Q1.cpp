@@ -38,7 +38,7 @@ class List
 public:
 	List()
 	{
-		top = 0;
+		top = -1;
 	}
 	/*
 	function addElement
@@ -46,8 +46,8 @@ public:
 	*/
 	void addElement(int r, int c)
 	{
-	    data[top]=Node(r,c);
 	    top++;
+	    data[top]=Node(r,c);
 	}
 	/*
 	function removeElement
@@ -56,18 +56,28 @@ public:
 	*/
 	Node *removeElement()
 	{
-	    if(top==0)return NULL;
 	    top--;
+	    if(top<0)return NULL;
 	    return &data[top+1];
 	}
 	void printList()
 	{
 		int j;
-		for(j = 0;j < top;j ++)
+		for(j = 0;j <= top;j ++)
 		{
 			cout<<"("<<data[j].getRow()<<", "<<data[j].getCol()<<")"<<endl;
 		}
 	}
+	int topC(){
+	    return data[top].getCol();
+	}
+	int topR(){
+	    return data[top].getRow();
+	}
+	int getTop(){
+	    return top;
+	}
+
 private:
 	Node data[SIZE * SIZE];
 	int top;
@@ -119,13 +129,15 @@ public:
         {
             x=rand()%s;
             y=rand()%s;
-            while(maze[x][y]==1||(x==0&&y==0)||(x==size-1&&y==size-1)){
+            while(maze[x][y]==1){
                     x=rand()%s;
                     y=rand()%s;
             }
             maze[x][y]=1;
             --unos;
         }
+        maze[0][0]=0;
+        maze[size-1][size-1]=0;
 	}
 	/*
 	function getPath
@@ -135,6 +147,43 @@ public:
 	*/
 	List *getPath()
 	{
+
+	    //Makes a dummie maze
+	    int dummie[size+2][size+2];
+	    for(int i=0;i<size+2;++i)
+        {
+            for(int j=0;j<size+2;++j)
+            {
+                dummie[i][j]=1;
+            }
+        }
+
+        //Copies into dummie maze
+	    for(int i=1;i<size+1;++i)
+        {
+            for(int j=1;j<size+1;++j)
+            {
+                dummie[i][j]=maze[i-1][j-1];
+            }
+        }
+
+
+        //Algorithm to find the path
+        int i, j;
+        List* camino = new List();
+        camino->addElement(0,0);
+        dummie[1][1]=1;
+        while(camino->getTop()>=0){
+            i=camino->topR()+1;j=camino->topC()+1;
+            if(i==size&&j==size){return camino;}
+            else if(dummie[i-1][j]!=1){camino->addElement(i-2,j-1);dummie[i-1][j]=1;}
+            else if(dummie[i+1][j]!=1){camino->addElement(i,j-1);dummie[i+1][j]=1;}
+            else if(dummie[i][j-1]!=1){camino->addElement(i-1,j-2);dummie[i][j-1]=1;}
+            else if(dummie[i][j+1]!=1){camino->addElement(i-1,j);dummie[i][j+1]=1;}
+            else camino->removeElement();
+        }
+        delete camino;
+        return new List();
 	}
 	void printMaze()
 	{
@@ -144,9 +193,9 @@ public:
 			for(k = 0;k < size;k ++)
 			{
 				if(maze[j][k] == 0)
-					cout<<" ";
+					cout<<"0";
 				else if(maze[j][k] == 1)
-					cout<<"*";
+					cout<<"1";
 			}
 			cout<<"\n";
 		}
@@ -160,5 +209,5 @@ int main()
 {
 	Maze *maze = new Maze();
 	maze->printMaze();
-	//maze->getPath()->printList();
+	maze->getPath()->printList();
 }
