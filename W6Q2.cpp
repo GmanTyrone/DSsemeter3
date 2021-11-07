@@ -105,42 +105,43 @@ public:
 	void initMaze(int s)
 	{
 	    size=s;
-	    int j,k;
-
 
 	    //Points to a memory space
-	    Grid *bloque = new Grid[s*s];
-        maze = new Grid* [s];
-        for(int i=0;i<s;i++){
-            (maze)[i]=&bloque[i*s];
-        }
+	    maze = new Grid[s*s];
 
-        //puts 0's
-        for(j = 0;j < s;j++){
-                for(k = 0;k < s;k++){
-                        maze[j][k] == 0;
-                }
-        }
+		for(int i=0;i<s*s;++i)
+		{
+			//Points DOWN
+			if(i<(s*s)-s)maze[i].setDir(DOWN,&maze[i+s]);
+
+			//Points UP
+			if(i>=s)maze[i].setDir(UP,&maze[i-s]);
+
+			//Points LEFT
+			if(i%s!=0)maze[i].setDir(LEFT,&maze[i-1]);
+
+			//Points RIGHT
+			if((i+1)%s!=0)maze[i].setDir(RIGHT,&maze[i+1]);
+		}
+
 
         //puts 1's
         srand((unsigned)time(0));
-        int x,y;
+        int x;
         int unos=s*s/5;
 
 
         while(unos>0)
         {
-            x=rand()%s;
-            y=rand()%s;
-            while(maze[x][y]==1){
-                    x=rand()%s;
-                    y=rand()%s;
+            x=rand()%(s*s);
+            while(maze[x].getState()==1||x==0||x==s*s-1){
+                    x=rand()%(s*s);
             }
-            maze[x][y]=1;
+            maze[x].setState(1);
             --unos;
         }
-        maze[0][0]=0;
-        maze[size-1][size-1]=0;
+        maze[0]=0;
+        maze[s*s-1]=0;
 	}
 	/*
 	function getPath
@@ -179,5 +180,5 @@ int main()
 {
 	Maze *maze = new Maze();
 	maze->printMaze();
-	maze->getPath()->printPath();
+	//maze->getPath()->printPath();
 }
