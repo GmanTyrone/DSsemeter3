@@ -104,6 +104,43 @@ public:
 	*/
 	void initMaze(int s)
 	{
+	    size=s;
+	    int j,k;
+
+
+	    //Points to a memory space
+	    Grid *bloque = new Grid[s*s];
+        maze = new Grid* [s];
+        for(int i=0;i<s;i++){
+            (maze)[i]=&bloque[i*s];
+        }
+
+        //puts 0's
+        for(j = 0;j < s;j++){
+                for(k = 0;k < s;k++){
+                        maze[j][k] == 0;
+                }
+        }
+
+        //puts 1's
+        srand((unsigned)time(0));
+        int x,y;
+        int unos=s*s/5;
+
+
+        while(unos>0)
+        {
+            x=rand()%s;
+            y=rand()%s;
+            while(maze[x][y]==1){
+                    x=rand()%s;
+                    y=rand()%s;
+            }
+            maze[x][y]=1;
+            --unos;
+        }
+        maze[0][0]=0;
+        maze[size-1][size-1]=0;
 	}
 	/*
 	function getPath
@@ -135,6 +172,7 @@ public:
 	}
 private:
 	Grid *maze;
+	int size;
 };
 
 int main()
