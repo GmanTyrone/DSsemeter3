@@ -61,6 +61,10 @@ public:
 	*/
 	Grid *removeElement()
 	{
+	    if(empty)return NULL;
+	    if(top==0)empty=true;
+	    else top--;
+	    return data[top+1];
 	}
 	void printPath() const
 	{
