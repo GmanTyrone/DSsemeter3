@@ -39,12 +39,21 @@ public:
 	List()
 	{
 		top = 0;
+		empty=true;
 	}
 	/*
 	Insert an element from top
 	*/
 	void addElement(Grid *g)
 	{
+	    if(empty){
+            empty=false;
+            data[top]=g;
+	    }
+	    else{
+            top++;
+            data[top]=g;
+	    }
 	}
 	/*
 	remove an element from top and return a pointer point to the element.
@@ -79,6 +88,7 @@ public:
 private:
 	Grid *data[SIZE * SIZE];
 	int top;
+	bool empty;
 };
 
 class Maze
