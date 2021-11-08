@@ -89,6 +89,8 @@ public:
 			}
 		}
 	}
+	bool isEmpty(){return empty;}
+	Grid* getTop(){return data[top];}
 private:
 	Grid *data[SIZE * SIZE];
 	int top;
@@ -155,6 +157,11 @@ public:
             --unos;
         }
 	}
+	Maze(const Maze &original)
+	{
+	    size=original.size;
+        *maze=*original.maze;
+	}
 	/*
 	function getPath
 	This function will find a path between start point and finish point.
@@ -167,6 +174,22 @@ public:
 	*/
 	List *getPath()
 	{
+        Maze Dummie=Maze(*this);
+	    List* camino = new List();
+	    Grid *i=Dummie.maze;
+        camino->addElement(i);
+        i->setState(1);
+        while(!camino->isEmpty()){
+            i=camino->getTop();
+            if(i->getDir(DOWN)==NULL && i->getDir(RIGHT)==NULL){return camino;}
+            else if(i->getDir(RIGHT)->getState()!=1){camino->addElement(i->getDir(RIGHT));i->getDir(RIGHT)->setState(1);}
+            else if(i->getDir(DOWN) ->getState()!=1){camino->addElement(i->getDir(DOWN)) ;i->getDir(DOWN)->setState(1);}
+            else if(i->getDir(LEFT) ->getState()!=1){camino->addElement(i->getDir(LEFT)) ;i->getDir(LEFT)->setState(1);}
+            else if(i->getDir(UP)   ->getState()!=1){camino->addElement(i->getDir(UP))   ;i->getDir(UP)->setState(1);}
+            else camino->removeElement();
+        }
+        delete camino;
+        return new List();
 	}
 	void printMaze() const
 	{
