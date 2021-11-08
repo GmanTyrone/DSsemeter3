@@ -140,8 +140,6 @@ public:
             maze[x].setState(1);
             --unos;
         }
-        maze[0]=0;
-        maze[s*s-1]=0;
 	}
 	/*
 	function getPath
