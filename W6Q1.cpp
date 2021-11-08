@@ -129,15 +129,13 @@ public:
         {
             x=rand()%s;
             y=rand()%s;
-            while(maze[x][y]==1){
+            while(maze[x][y]==1||(x==0&&y==0)||(x==size-1&&y==size-1)){
                     x=rand()%s;
                     y=rand()%s;
             }
             maze[x][y]=1;
             --unos;
         }
-        maze[0][0]=0;
-        maze[size-1][size-1]=0;
 	}
 	/*
 	function getPath
