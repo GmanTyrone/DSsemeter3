@@ -184,7 +184,7 @@ public:
         while(!camino->isEmpty()){
             i=camino->getTop();
 
-            if(i->getDir(DOWN)==NULL && i->getDir(RIGHT)==NULL){return camino;}
+            if(i->getDir(DOWN)==NULL && i->getDir(RIGHT)==NULL){camino->addElement(i);return camino;}
             if(i->getDir(RIGHT)!=NULL){if(i->getDir(RIGHT)->getState()!=1){camino->addElement(i->getDir(RIGHT));i->getDir(RIGHT)->setState(1);continue;}}
             if(i->getDir(DOWN) !=NULL){if(i->getDir(DOWN) ->getState()!=1){camino->addElement(i->getDir(DOWN)) ;i->getDir(DOWN) ->setState(1);continue;}}
             if(i->getDir(LEFT) !=NULL){if(i->getDir(LEFT) ->getState()!=1){camino->addElement(i->getDir(LEFT)) ;i->getDir(LEFT) ->setState(1);continue;}}
