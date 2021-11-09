@@ -91,6 +91,7 @@ public:
 	}
 	bool isEmpty(){return empty;}
 	Grid* getTop(){return data[top];}
+	int getSize(){return top;}
 private:
 	Grid *data[SIZE * SIZE];
 	int top;
@@ -182,12 +183,13 @@ public:
         i->setState(1);
         while(!camino->isEmpty()){
             i=camino->getTop();
+
             if(i->getDir(DOWN)==NULL && i->getDir(RIGHT)==NULL){return camino;}
-            else if(i->getDir(RIGHT)->getState()!=1){camino->addElement(i->getDir(RIGHT));i->getDir(RIGHT)->setState(1);}
-            else if(i->getDir(DOWN) ->getState()!=1){camino->addElement(i->getDir(DOWN)) ;i->getDir(DOWN) ->setState(1);}
-            else if(i->getDir(LEFT) ->getState()!=1){camino->addElement(i->getDir(LEFT)) ;i->getDir(LEFT) ->setState(1);}
-            else if(i->getDir(UP)   ->getState()!=1){camino->addElement(i->getDir(UP))   ;i->getDir(UP)   ->setState(1);}
-            else camino->removeElement();
+            if(i->getDir(RIGHT)!=NULL){if(i->getDir(RIGHT)->getState()!=1){camino->addElement(i->getDir(RIGHT));i->getDir(RIGHT)->setState(1);continue;}}
+            if(i->getDir(DOWN) !=NULL){if(i->getDir(DOWN) ->getState()!=1){camino->addElement(i->getDir(DOWN)) ;i->getDir(DOWN) ->setState(1);continue;}}
+            if(i->getDir(LEFT) !=NULL){if(i->getDir(LEFT) ->getState()!=1){camino->addElement(i->getDir(LEFT)) ;i->getDir(LEFT) ->setState(1);continue;}}
+            if(i->getDir(UP)   !=NULL){if(i->getDir(UP)   ->getState()!=1){camino->addElement(i->getDir(UP))   ;i->getDir(UP)   ->setState(1);continue;}}
+            camino->removeElement();
         }
         delete camino;
         return new List();
