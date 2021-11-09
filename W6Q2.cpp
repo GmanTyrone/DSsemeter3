@@ -89,7 +89,6 @@ public:
 				cout<<"RIGHT\n";
 			}
 		}
-		cout<<"END"<<endl;
 	}
 	bool isEmpty(){return empty;}
 	Grid* getTop(){return data[top];}
@@ -162,6 +161,7 @@ public:
 	Maze(const Maze &original)
 	{
 	    size=original.size;
+	    maze = new Grid[size*size];
         *maze=*original.maze;
 	}
 	/*
