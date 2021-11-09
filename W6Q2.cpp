@@ -176,16 +176,17 @@ public:
 	{
         Maze Dummie=Maze(*this);
 	    List* camino = new List();
-	    Grid *i=Dummie.maze;
+	    //Grid *i=Dummie.maze;
+	    Grid *i=maze;
         camino->addElement(i);
         i->setState(1);
         while(!camino->isEmpty()){
             i=camino->getTop();
             if(i->getDir(DOWN)==NULL && i->getDir(RIGHT)==NULL){return camino;}
             else if(i->getDir(RIGHT)->getState()!=1){camino->addElement(i->getDir(RIGHT));i->getDir(RIGHT)->setState(1);}
-            else if(i->getDir(DOWN) ->getState()!=1){camino->addElement(i->getDir(DOWN)) ;i->getDir(DOWN)->setState(1);}
-            else if(i->getDir(LEFT) ->getState()!=1){camino->addElement(i->getDir(LEFT)) ;i->getDir(LEFT)->setState(1);}
-            else if(i->getDir(UP)   ->getState()!=1){camino->addElement(i->getDir(UP))   ;i->getDir(UP)->setState(1);}
+            else if(i->getDir(DOWN) ->getState()!=1){camino->addElement(i->getDir(DOWN)) ;i->getDir(DOWN) ->setState(1);}
+            else if(i->getDir(LEFT) ->getState()!=1){camino->addElement(i->getDir(LEFT)) ;i->getDir(LEFT) ->setState(1);}
+            else if(i->getDir(UP)   ->getState()!=1){camino->addElement(i->getDir(UP))   ;i->getDir(UP)   ->setState(1);}
             else camino->removeElement();
         }
         delete camino;
@@ -215,5 +216,5 @@ int main()
 {
 	Maze *maze = new Maze();
 	maze->printMaze();
-	//maze->getPath()->printPath();
+	maze->getPath()->printPath();
 }
