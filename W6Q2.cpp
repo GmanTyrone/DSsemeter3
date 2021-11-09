@@ -68,6 +68,7 @@ public:
 	}
 	void printPath() const
 	{
+		if(empty)return;
 		int j;
 		for(j = 1;j < top;j ++)
 		{
@@ -88,10 +89,10 @@ public:
 				cout<<"RIGHT\n";
 			}
 		}
+		cout<<"END"<<endl;
 	}
 	bool isEmpty(){return empty;}
 	Grid* getTop(){return data[top];}
-	int getSize(){return top;}
 private:
 	Grid *data[SIZE * SIZE];
 	int top;
@@ -177,8 +178,8 @@ public:
 	{
         Maze Dummie=Maze(*this);
 	    List* camino = new List();
-	    //Grid *i=Dummie.maze;
-	    Grid *i=maze;
+	    Grid *i=Dummie.maze;
+	    //Grid *i=maze;
         camino->addElement(i);
         i->setState(1);
         while(!camino->isEmpty()){
