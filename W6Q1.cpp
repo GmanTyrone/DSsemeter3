@@ -46,8 +46,8 @@ public:
 	*/
 	void addElement(int r, int c)
 	{
+	    data[top+1]=Node(r,c);
 	    top++;
-	    data[top]=Node(r,c);
 	}
 	/*
 	function removeElement
@@ -121,18 +121,14 @@ public:
 
         //puts 1's
         srand((unsigned)time(0));
-        int x,y;
         int unos=s*s/5;
+        int x=rand()%s;
+        int y=rand()%s;
 
-
-        while(unos>0)
+        while(unos>0&&(maze[x][y]==1||(x==0&&y==0)||(x==size-1&&y==size-1)))
         {
             x=rand()%s;
             y=rand()%s;
-            while(maze[x][y]==1||(x==0&&y==0)||(x==size-1&&y==size-1)){
-                    x=rand()%s;
-                    y=rand()%s;
-            }
             maze[x][y]=1;
             --unos;
         }
