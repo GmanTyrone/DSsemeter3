@@ -25,7 +25,6 @@ public:
         temp->data=d;
         temp->next=top;
         top=temp;
-        throw -1;
         }catch (const std::bad_alloc& e){return -1;}
         count++;
         return 1;
