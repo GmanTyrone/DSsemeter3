@@ -1,6 +1,5 @@
 #include <iostream>
 #include <string>
-#define MAXZISE 100
 
 using namespace std;
 
@@ -16,7 +15,6 @@ class Queue
 public:
 	Queue()
 	{
-	    top=new Node[MAXZISE];
 	}
 	int enqueue(int d)
 	{
@@ -45,8 +43,8 @@ public:
         else return nullptr;
 	}
 private:
-	Node *top;
-    Node *bot;
+	Node *top=new Node;
+    Node *bot=top;
     int count=0;
 };
 
