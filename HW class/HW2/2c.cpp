@@ -85,6 +85,12 @@ public:
 	    return false;
 	}
 
+	int CheckFront()
+	{
+	    if(count==0)return NULL;
+	    else return top->data;
+	}
+
 
 private:
 	Node *top;
