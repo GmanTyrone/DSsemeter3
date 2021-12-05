@@ -1,6 +1,6 @@
 #include<iostream>
+#include <queue>
 #include<cstdlib>
-#include<queue>
 #include<ctime>
 
 using namespace std;
@@ -18,11 +18,10 @@ public:
 	int insert(int node)
 	{
 		int f = 0, index = 0;
-
-		//Increases until finding next index
-		while(root[index][0] != -1)index ++;
-
-		if(index >= 20)return -1;
+		while(root[index][0] != -1)
+			index ++;
+		if(index >= 20)
+			return -1;
 		if(index == 0)
 		{
 			root[0][0] = 1;
@@ -62,25 +61,9 @@ public:
 			}
 		}
 	}
-	void inorder()
-	{
-	    inorder(0);
-	}
-	void preorder()
-	{
-	    preorder(0);
-	}
-	void postorder()
-	{
-	    postorder(0);
-	}
-	void levelorder()
-	{
-	}
-private:
-    void inorder(int x)
-    {
-       if(root[x][2]!=-1){
+	void inorder(int x){
+
+		if(root[x][2]!=-1){
 			inorder(root[x][2]);
 		}
 		cout<<root[x][1]<<" ";
@@ -90,16 +73,54 @@ private:
 		if(root[x][2] == -1 && root[x][3] == -1){
 			return;
 		}
-    }
-    void preorder(int x)
-    {
+	}
+	void preorder(int x)
+	{
+		cout<<root[x][1]<<" ";
+		if(root[x][2]!=-1){
+			preorder(root[x][2]);
+		}
+		if(root[x][3]!=-1){
+			preorder(root[x][3]);
+		}
+		if(root[x][2] == -1 && root[x][3] == -1){
+			return;
+		}
+	}
+	void postorder(int x)
+	{
+		if(root[x][2]!=-1){
+			postorder(root[x][2]);
+		}
+		if(root[x][3]!=-1){
+			postorder(root[x][3]);
+		}
+		cout<<root[x][1]<<" ";
+		if(root[x][2] == -1 && root[x][3] == -1){
+			return;
+		}
 
-    }
-    void postorder(int x)
-    {
+	}
 
-    }
+	void levelorder(int x){
+		queue<int> q;
+		q.push(x);
+		while(!q.empty()){
+			int index = q.front();
+			cout<<root[index][1]<<" ";
+			if(root[index][2]!=-1){
+				q.push(root[index][2]);
+			}
+			if(root[index][3]!=-1){
+				q.push(root[index][3]);
+			}
+			q.pop();
 
+		}
+	}
+
+
+private:
 	int root[20][4];
 };
 
@@ -110,15 +131,15 @@ int main()
 	srand(time(NULL));
 	for(j = 0;j < 10;j ++)
 	{
-		node = j;//rand();
+		node =j; //rand()%10;
 		tree->insert(node);
 	}
-	tree->inorder();
+	tree->inorder(1);
 	printf("\n");
-	tree->preorder();
+	tree->preorder(1);
 	printf("\n");
-	tree->postorder();
+	tree->postorder(1);
 	printf("\n");
-	tree->levelorder();
+	tree->levelorder(1);
 	printf("\n");
 }
