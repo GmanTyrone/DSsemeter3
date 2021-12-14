@@ -40,7 +40,9 @@ public:
 	}
 	void levelorder()
 	{
-	    queue<int> q;
+	    for(int i=0;i<2000;i++)
+            if(root[i]!=-1)cout<<root[i]<<" ";
+	    /*queue<int> q;
 	    int x=0;
 	    while(root[x]!=-1&&x<2000){
             cout<<root[x]<<" ";
@@ -49,7 +51,7 @@ public:
             if(q.empty())return;
             x=q.front();
             q.pop();
-	    }
+	    }*/
 	}
 private:
     void inorder(int x)
