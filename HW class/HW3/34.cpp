@@ -56,25 +56,26 @@ public:
             cur = cur->next;
         }
 
+        if(cur->data!=n->data){
+            //If not found then it is added
+            temp->next=cur->next;
+            cur->next=temp;
+            return true;
+        }
+
         //If found adds it to the end of list
-        if(cur->data==n->data){
-            if(cur->avanzare==NULL){
+        else if(cur->data==n->data&&cur->avanzare==NULL){
                 temp->ritorno=cur;
                 cur->avanzare=temp;
                 return false;
             }
-            else while(cur->avanzare==NULL){
+        else while(cur->avanzare==NULL){
                 cur=cur->avanzare;
             }
             temp->ritorno=cur;
             cur->avanzare=temp;
             return false;
-        }
 
-		//If not found then it is added
-		temp->next=cur->next;
-		cur->next=temp;
-		return true;
 	}
 
 	void listAll() const
@@ -93,11 +94,12 @@ public:
         {
             temp=temp->next;
         }
-        if(temp->data!=x&&temp->next==NULL)cout<<"not found"<<endl;
-        else do{
+        if(temp->data!=x&&temp->next==NULL){cout<<"not found"<<endl;return;}
+        while(temp->avanzare!=NULL)
+        {
             cout<<temp->data<<" ";
             temp=temp->avanzare;
-        }while(temp->avanzare!=NULL);
+        }
 	}
 private:
 	Node *element=NULL;
