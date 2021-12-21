@@ -27,13 +27,21 @@ template <class Type>
 class List {
 friend class ListIterator<Type>;
 public:
-    List() {first = 0;};
+    List() {first = 0;counter=0;};
     void Insert(Type);
     void Delete(Type);
     void Invert();
     void Concatenate(List<Type>);
+    int length();
+    Type atNth(int);
+    ListNode<Type>* atNthPointer(int);
+    void printAll();
+    void deleteAll(int, Type);
+    void shift(char, int);
+    Boolean symmetric();
 private:
     ListNode<Type> *first;
+    int counter;
 };
 
 template <class Type>
@@ -42,26 +50,32 @@ void List<Type>::Insert(Type k)
 ListNode<Type> *newnode = new ListNode<Type>(k);
 newnode->link = first;
 first = newnode;
+counter++;
 }
 
 template <class Type>
 void List<Type>::Delete(Type k)
 {
     ListNode<Type> *previous = 0;
-    for (ListNode<Type> *current = first; current && current->data != k;
-	previous = current, current = current->link)
-   if (current)
-   {
-       if (previous) previous->link = current->link;
-       else first = first->link;
-       delete current;
-   }
+    ListNode<Type> *current = first;
+    for (; current && current->data != k;
+	previous = current, current = current->link){
+
+    }
+        if (current)
+        {
+            if (previous) previous->link = current->link;
+            else first = first->link;
+            delete current;
+            counter--;
+        }else{
+            cout<<"Could not find match to delete : "<<k;
+        }
+
 }
 
 template <class Type>
 void List<Type>::Invert()
-// A chain x is inverted so that if x = (a0, a1, ..., an),
-// then, after execution, x = (an, ..., a1)
 {
     ListNode<Type> *p = first, *q = 0; // q trails p
     while (p) {
@@ -74,14 +88,111 @@ void List<Type>::Invert()
 
 template <class Type>
 void List<Type>::Concatenate(List<Type> b)
-// this = (a1, ..., am) and y = (b1, ..., bm), m, n >= 0
-// produces the new chain z = (a1, ..., am, b1, ..., bn) in this.
 {
-    if (! first) {first = b.first; return;}
-    if (b.first) {
-	for (ListNode<Type> *p = first; p->link; p = p->link) // no body
-	p->link = b.first;
+    if (counter == 0){
+        first = b.first;
+        return;
     }
+    else {
+        ListNode<Type> *temp2 = b.first;
+        for(int i=0; i < b.counter; i++){
+            this->Insert(temp2->data);
+            temp2 = temp2->link;
+        }
+    }
+}
+
+template<class Type>
+void List<Type>::printAll(){
+    ListNode<Type>*temp = first;
+    for(int y=0; y<counter; y++){
+        cout<<temp->data<<" ";
+        temp = temp->link;
+    }
+}
+
+template<class Type>
+int List<Type>::length(){
+    return counter;
+}
+
+template<class Type>
+Type List<Type>::atNth(int a){
+    ListNode<Type> *iterate = first;
+    if(a > counter){
+        cout<<"There aren't elements in that index.\n";
+        return 0;
+    }else{
+        //cout<<"here";
+        for(int y=0; y < a; y++){
+            iterate = iterate->link;
+        }
+        return iterate->data;
+    }
+}
+template <class Type>
+ListNode<Type>* List<Type>::atNthPointer(int a){
+   ListNode<Type> *iterate = first;
+    if(a > counter){
+        return 0;
+    }else{
+        for(int y=0; y < a; y++){
+            iterate = iterate->link;
+        }
+        return iterate;
+    }
+}
+template <class Type>
+void List<Type>::deleteAll(int y, Type k){
+
+    int tracker = 0;
+
+    while(tracker < y){
+    ListNode<Type> *previous = 0;
+    ListNode<Type> *current = first;
+    for (; current && current->data != k;
+	previous = current, current = current->link){
+    }
+        if (current)
+        {
+
+            if (previous) previous->link = current->link;
+            else first = first->link;
+            delete current;
+            counter--;
+        }
+        tracker++;
+    }
+}
+template <class Type>
+void List<Type>::shift(char n, int x){
+    int place = counter;
+    if(x == 0) return;
+    if(x > place){
+        x = x%place;
+    }
+    if(n == 'R'){
+        x = place - x;
+    }
+    if(n == 'R' || n == 'L'){
+        ListNode<Type>* hold = this->atNthPointer(x-1);
+        ListNode<Type>* hold2 = hold;
+        hold = this->atNthPointer(counter-1);
+        hold->link = this->first;
+        this->first = hold2->link;
+        hold2->link = NULL;
+    }
+}
+template <class Type>
+Boolean List<Type>::symmetric(){
+    int max=counter/2;
+    if (counter%2!=0)max--;
+    for(int y=0; y <= max; y++){
+            if(this->atNth(y) != this->atNth(counter-1-y)){
+                return FALSE;
+            }
+        }
+    return TRUE;
 }
 
 template <class Type>
@@ -128,11 +239,10 @@ Type* ListIterator<Type>::Next() {
 
 int sum(const List<int>& l)
 {
-  ListIterator<int> li(l);  //li is associated with list l
-  if (!li.NotNull()) return 0; // empty list, return 0
-  int retvalue = *li.First(); // get first element
-  while (li.NextNotNull())  // make sure that next element exists
-     retvalue += *li.Next(); // get it, add it to current total
+  ListIterator<int> li(l);
+  if (!li.NotNull()) return 0;
+  int retvalue = *li.First();
+  while (li.NextNotNull())retvalue += *li.Next();
   return retvalue;
 }
 
@@ -149,44 +259,79 @@ ostream& operator<<(ostream& os, List<char>& l)
     return os;
 }
 
-int main(void)
+int main()
 {
-   List<int> intlist;
+    List<int> intlist;
+    List<int> intC;
+    intC.Insert(1);
+    intC.Insert(2);
+    intC.Insert(3);
+    intC.Insert(4);
+    intC.Insert(3);
+    intC.Insert(2);
+    intC.Insert(1);
+    cout<<"Symmetric: ";
+    cout<<intC.symmetric()<<endl;
     intlist.Insert(5);
-    intlist.Insert(15);
-    intlist.Insert(25);
-    intlist.Insert(35);
-    cout << endl;
-    cout << sum(intlist) << endl;
-    intlist.Delete(20);
-    intlist.Delete(15);
-    intlist.Delete(35);
-    cout << sum(intlist) << endl;
+    intlist.Insert(7);
+    intlist.Insert(6);
+    intlist.Insert(6);
+    intlist.Insert(6);
+    intlist.Insert(6);
+    cout<<"Lenght: ";
+    cout<<intlist.length()<< endl;
+    cout<<"Element at 0: ";
+    cout<<intlist.atNth(0)<<endl;
+    cout << "Sum: "<< sum(intlist) << endl<<endl;
+    cout<<"Delete 6"<<endl;
+    cout<<"Lenght: ";
+    intlist.Delete(6);
+    cout<<intlist.length()<<endl;
+    cout<<"Sum: "<<sum(intlist)<<endl<<endl;
+    cout<<"Deleting all 6"<<endl;
+    //intlist.printAll();
+    intlist.deleteAll(2,6);
+    cout<<"Lenght: ";
+    intlist.Delete(6);
+    cout<<intlist.length()<<endl;
+    cout<<"Sum: "<<sum(intlist)<<endl;
+    cout<<endl;
+    intlist.printAll();
+    cout<<endl;
+    intlist.Concatenate(intC);
+    cout<<"Concatenate size: "<<intlist.length()<<endl;
+    cout<<"List of elements"<<endl;
+    intlist.printAll();
 
-  List<char> charlist;
+    cout<<endl;
+    cout<<"Shifting to the right by 4 spaces:\n";
+    intlist.shift('R', 4);
+    intlist.printAll();cout<<endl;
+    List<char> charlist;
     cout << "shd be empty: " << charlist << endl;
     charlist.Invert();
     cout << "shd be empty: " << charlist << endl;
     charlist.Insert('d');
     charlist.Invert();
-    cout << "shd have a d : " << charlist << endl;
+    cout << "shd have d : \n" << charlist << endl;
     charlist.Insert('c');
     charlist.Insert('b');
     charlist.Insert('a');
-    cout << "shd have abcd: ";
+    cout << "shd have abcd: \n";
     cout << charlist << endl;
     charlist.Invert();
-    cout << "shd invert prev list";
+    cout << "shd invert prev list:\n";
     cout << charlist << endl;
-
     List<char> char2list;
     charlist.Concatenate(char2list);
     cout << charlist << endl;
     char2list.Insert('e');
     char2list.Insert('f');
     char2list.Concatenate(charlist);
-   charlist.Delete('e');
+    charlist.Delete('e');
+    cout<<endl;
     charlist.Delete('c');
+    cout<<endl;
     cout << char2list << endl;
     char2list.Invert();
     cout << char2list << endl;
