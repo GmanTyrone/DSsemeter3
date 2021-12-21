@@ -22,7 +22,7 @@ public:
 	//Next and Previous in Set
 	*next, *prev,
 	//Next and previous in Linked list
-	*avazare, *ritorno;
+	*avanzare, *ritorno;
 };
 
 class Set
@@ -58,16 +58,16 @@ public:
 
         //If found adds it to the end of list
         if(cur->data==n->data){
-            if(cur->avazare==NULL){
+            if(cur->avanzare==NULL){
                 temp->ritorno=cur;
-                cur->avazare=temp;
+                cur->avanzare=temp;
                 return false;
             }
-            else while(cur->avazare==NULL){
-                cur=cur->avazare;
+            else while(cur->avanzare==NULL){
+                cur=cur->avanzare;
             }
             temp->ritorno=cur;
-            cur->avazare=temp;
+            cur->avanzare=temp;
             return false;
         }
 
@@ -96,8 +96,8 @@ public:
         if(temp->data!=x&&temp->next==NULL)cout<<"not found"<<endl;
         else do{
             cout<<temp->data<<" ";
-            temp=temp->avazare;
-        }while(temp->avazare!=NULL);
+            temp=temp->avanzare;
+        }while(temp->avanzare!=NULL);
 	}
 private:
 	Node *element=NULL;
