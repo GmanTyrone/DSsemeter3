@@ -79,7 +79,7 @@ public:
         }
         }
 
-        //Does continuous Island
+        //Does continuous wall
         int x,y;
         queue<int> Ix,Iy;
         Ix.push(walli);Iy.push(wallj);
@@ -96,8 +96,10 @@ public:
         //Looks for discontinuous isands and walls
         for(int i=1;i<size+1;i++){
         for(int j=1;j<size+1;j++){
-            if(dummy[i][j]=='.'||dummy[i][j]=='W')return 0;
+            //if(dummy[i][j]=='.'||dummy[i][j]=='W')return 0;
+            cout<<dummy[i][j]<<" ";
         }
+        cout<<endl;
         }
 
         return 1;
