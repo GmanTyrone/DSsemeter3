@@ -1,9 +1,9 @@
-// Adjacency Lists + BFS.
-
 #ifndef _IOSTREAM_H
-#include <iostream.h>
+#include <iostream>
 #define _IOSTREAM_H
 #endif
+
+using namespace std;
 
 enum Boolean { FALSE, TRUE};
 
@@ -50,14 +50,14 @@ template <class Type>
 void List<Type>::Delete(Type k)
 {
     ListNode<Type> *previous = 0;
-    for (ListNode<Type> *current = first; current && current->data != k;
-	previous = current, current = current->link);
-   if (current)
-   {
+    for (ListNode<Type> *current = first; current && current->data != k; previous = current, current = current->link){
+    if (current)
+    {
        if (previous) previous->link = current->link;
        else first = first->link;
        delete current;
-   }
+    }
+    }
 }
 
 template <class Type>
@@ -202,9 +202,10 @@ void Graph::BFS(int v)
     delete [] visited;
 }
 
-main()
+int main(void)
 {
  Graph g(8);
  g.Setup();
  g.BFS(0);
+ return 0;
 }

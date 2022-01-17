@@ -1,4 +1,6 @@
-#include <iostream.h>
+#include <iostream>
+
+using namespace std;
 
 enum Boolean {FALSE, TRUE};
 const int nmax = 100;
@@ -121,7 +123,7 @@ void Graph::ShortestPath(const int n, const int v)
     dist[v] = 0;
 
     Out(n);
-    for (i = 0; i < n-2; i++) { // determine @n-1@ paths from vertex @v@
+    for (int i = 0; i < n-2; i++) { // determine @n-1@ paths from vertex @v@
 	int u = choose(n);  // @choose@ returns a value @u@:
 			    // @dist[u]@ = minimum @dist[w]@, where @s[w]@ = FALSE
 	s[u] = TRUE;
@@ -150,7 +152,7 @@ void Graph::BellmanFord(const int n, const int v)
   {
    for (int u = 0; u < n ; u++)
     if (u != v) {
-       for (i = 0; i < n; i++)
+       for (int i = 0; i < n; i++)
 	 if ((u != i) && (length[i][u] < 10000))
 	   if (dist[u] > dist[i] + length[i][u]) dist[u] = dist[i] + length[i][u];
     }
@@ -167,11 +169,11 @@ void Graph::BellmanFord2(const int n, const int v)
    for (int l = 0; l < n; l++) newdist[l] = dist[l];
    for (int u = 0; u < n ; u++)
     if (u != v) {
-       for (i = 0; i < n; i++)
+       for (int i = 0; i < n; i++)
 	 if ((u != i) && (length[i][u] < 10000))
 	   if (newdist[u] > dist[i] + length[i][u]) newdist[u] = dist[i] + length[i][u];
     }
-   for (i = 0; i < n; i++) dist[i] = newdist[i];
+   for (int i = 0; i < n; i++) dist[i] = newdist[i];
   }
 }
 
@@ -185,7 +187,7 @@ void Graph::AllLengths(const int n)
     for (int k = 0; k < n; k++) {  // for a path with highest vertex index @k@
        OutA(n);
 
-       for (i = 0; i < n; i++)  // for all possible pairs of vertices
+       for (int i = 0; i < n; i++)  // for all possible pairs of vertices
 	  for (int j = 0; j < n; j++)
 	      if ((a[i][k] + a[k][j]) < a[i][j]) a[i][j] = a[i][k] + a[k][j];
     }
@@ -194,9 +196,10 @@ void Graph::AllLengths(const int n)
 
 
 
-main()
+int main(void)
 {
     Graph g;
     g.Setup4();
     g.AllLengths(3);
+    return 0;
 }
