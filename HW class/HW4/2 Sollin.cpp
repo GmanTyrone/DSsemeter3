@@ -37,6 +37,25 @@ private:
         int a = find(i);
         int b = find(j);
         SollinTree[a][0] = b;
+
+
+
+        // Attach smaller rank tree under root of high
+        // rank tree (Union by Rank)
+        if (SollinTree[a][1] < SollinTree[b][1])
+            SollinTree[a][0] = b;
+        else if (SollinTree[a][1] > SollinTree[b][1])
+            SollinTree[b][0] = a;
+
+        // If ranks are same, then make one as root and
+        // increment its rank by one
+        else
+        {
+            SollinTree[b][0] = a;
+            SollinTree[a][1]++;
+        }
+
+
     }
 
 
@@ -95,7 +114,7 @@ public:
     //Sollin
     void sollinMST()
     {
-        int mincost = 0;
+        int MSTweight = 0;
         int numTrees = size;
 
     // Every vertex is just parent to itself and rank 0
@@ -109,20 +128,29 @@ public:
 
         while (numTrees > 1)
         {
-         // Everytime initialize cheapest array
+            // Everytime initialize cheapest array
             for (int i = 0; i < size; ++i)
-           {
+            {
                minimumcost[i] = -1;
-           }
+            }
 
             // Traverse through all edges and update
             // cheapest of every component
+            int a=0, b=0;
             for (int i=0; i<edges; i++)
-        {
+            {
+
+                for(a=i;a<size;a++){
+                    for(b=a+1;b<size;b++)
+                    {
+                        if(vertArr[a][b]!=INT_MAX)goto exit;
+                    }
+                }
+            exit:
             // Find components (or sets) of two corners
             // of current edge
-            int set1 = find2(, edge[i].src);
-            int set2 = find2(subsets, edge[i].dest);
+            int set1 = find(a);
+            int set2 = find(b);
 
             // If two corners of current edge belong to
             // same set, ignore current edge
@@ -133,39 +161,36 @@ public:
             // cheapest edges of set1 and set2
             else
             {
-               if (cheapest[set1] == -1 ||
-                   edge[cheapest[set1]].weight > edge[i].weight)
-                 cheapest[set1] = i;
+               if (minimumcost[set1] == -1 || vertArr[set1][minimumcost[set1]] > vertArr[a][b])
+                 minimumcost[set1] = i;
 
-               if (cheapest[set2] == -1 ||
-                   edge[cheapest[set2]].weight > edge[i].weight)
-                 cheapest[set2] = i;
+               if (minimumcost[set2] == -1 || vertArr[set1][minimumcost[set2]] > vertArr[a][b])
+                 minimumcost[set2] = i;
             }
-        }
+            }
 
-        // Consider the above picked cheapest edges and add them
-        // to MST
-        for (int i=0; i<V; i++)
-        {
-            // Check if cheapest for current set exists
-            if (cheapest[i] != -1)
+            // Consider the above picked cheapest edges and add them
+            // to MST
+            for (int i=0; i<size; i++)
             {
-                int set1 = find(subsets, edge[cheapest[i]].src);
-                int set2 = find(subsets, edge[cheapest[i]].dest);
+                // Check if cheapest for current set exists
+                if (minimumcost[i] != -1)
+                {
+                int set1 = find(minimumcost[a]);
+                int set2 = find(minimumcost[b]);
 
-                if (set1 == set2)
-                    continue;
-                MSTweight += edge[cheapest[i]].weight;
-                printf("Edge %d-%d included in MST\n",
-                       edge[cheapest[i]].src, edge[cheapest[i]].dest);
+                if (set1 == set2)continue;
+
+                MSTweight += vertArr[set1][minimumcost[set1]];
+                printf("Edge %d-%d included in MST\n",a, b);
 
                 // Do a union of set1 and set2 and decrease number
                 // of trees
-                Union(subsets, set1, set2);
+                unions(set1, set2);
                 numTrees--;
+                }
             }
         }
-    }
 
     printf("Weight of MST is %d\n", MSTweight);
     return;
