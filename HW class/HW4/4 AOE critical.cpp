@@ -27,7 +27,7 @@ class Graph {
 
     // helping function
     void activityOrder(int v, bool visited[],stack<int>& Stack)
-{
+    {
     visited[v] = true;
 
     list<nodoTopologico>::iterator i;
@@ -59,6 +59,7 @@ public:
 
     void longestPath(int s=0)
     {
+        stack<int> Path[V];
         stack<int> Stack;
         int dist[V];
         bool* visited = new bool[V];
@@ -81,14 +82,22 @@ public:
             if (dist[u] != INT_MIN) {
                 for (i = adj[u].begin(); i != adj[u].end(); ++i)
                 {
-                    if (dist[i->getV()] < dist[u] + i->getWeight())dist[i->getV()] = dist[u] + i->getWeight();
+                    if (dist[i->getV()] < dist[u] + i->getWeight()){
+                            dist[i->getV()] = dist[u] + i->getWeight();
+                            Path[i->getV()].push(i->getWeight());
+                    }
                 }
             }
         }
 
-    for (int i = 0; i < V; i++)
-        (dist[i] == INT_MIN) ? cout << "Infinite " : cout << dist[i] << " ";
+    //for (int i = 0; i < V; i++)(dist[i] == INT_MIN) ? cout << "Infinite " : cout << dist[i] << " ";
+        cout<<dist[V-1];
         delete [] visited;
+
+    /*while(Path[V-1].empty()==false){
+        cout<<Path[V-1].top()<<" ";
+        Path[V-1].pop();
+    }*/
     }
 };
 
