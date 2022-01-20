@@ -6,101 +6,144 @@
 template<class T>
 class Node
 {
+protected:
+	T *data;
+
 public:
+    //Default empty node
 	Node()
 	{
 		data = new T;
 	}
+	//Node with value
 	Node(T d)
 	{
 		data = new T;
 		(*data) = d;
 	}
+
+	//Change value of Node data to d with = sign, returns Node
 	Node &operator=(T d)
 	{
 		(*data) = d;
 		return *this;
 	}
+
+	//lets use << on node to output data
 	friend std::ostream &operator<<(std::ostream &out, Node n)
 	{
 		out<<*(n.data);
 		return out;
 	}
+
+	//lets use << on node pointer to output data
 	friend std::ostream &operator<<(std::ostream &out, Node *n)
 	{
 		out<<*(n->data);
 		return out;
 	}
+
+	//Sets data of node to D but returns nothing
 	void setData(T d)
 	{
 		*data = d;
 	}
+
+	//Gets data from Node
 	T &getData() const
 	{
 		return *data;
 	}
-protected:
-	T *data;
 };
 
+
+//Linked list to store the nodes childs from tree
 template<class T>
 class ListNode : public Node<T>
 {
+private:
+	ListNode *prev, *next;
+
 public:
+
+    //Creates default listnode
 	ListNode() : Node<T>()
 	{
 		prev = NULL;
 		next = NULL;
 	}
+
+	//Creates listnode with value d and empty childs
 	ListNode(T d) : Node<T>(d)
 	{
 		prev = NULL;
 		next = NULL;
 	}
+
+	//Creates listnode with empty data but prev and next listnodes
 	ListNode(ListNode *p, ListNode *n) : Node<T>()
 	{
 		prev = p;
 		next = n;
 	}
+
+	//Creates listnode with data d, and prev and next listnodes
 	ListNode(T d, ListNode *p, ListNode *n) : Node<T>(d)
 	{
 		prev = p;
 		next = n;
 	}
+
+	//Gets next listnode from a listnode
 	ListNode *getNext() const
 	{
 		return next;
 	}
+
+	//Gets prev listnode from a listnode
 	ListNode *getPrev() const
 	{
 		return prev;
 	}
+
+	//Sets next listnode
 	void setNext(ListNode *n)
 	{
 		next = n;
 	}
+
+	//Sets prev listnode
 	void setPrev(ListNode *p)
 	{
 		prev = p;
 	}
+
+	//Overloads = operator to asign data to a listnode, returns listnode
 	ListNode &operator=(T d)
 	{
 		this->setData(d);
 		return *this;
 	}
-private:
-	ListNode *prev, *next;
 };
 
 template<class T>
 class LinkList
 {
+protected:
+	ListNode<T> *head, *tail;
+
 public:
+
+    //Default empty constructor
 	LinkList()
 	{
 		head = NULL;
 		tail = NULL;
 	}
+
+
+	//Creates new node making it head and changing the pointers of head and tail(if necessary)
+	//Next refers to nodes after head; head->next->next->tail;
 	void addFromHead(T d)
 	{
 		ListNode<T> *node = new ListNode<T>(d);
@@ -113,6 +156,9 @@ public:
 		if(tail == NULL)
 			tail = node;
 	}
+
+	//Creates new node making it tail and changing the pointers of tail and head(if necessary)
+	//Prev refers to nodes before tail; head<-prev<-prev<-tail;
 	void addFromTail(T d)
 	{
 		ListNode<T> *node = new ListNode<T>(d);
@@ -125,6 +171,8 @@ public:
 		if(head == NULL)
 			head = node;
 	}
+
+	//adds node at a place
 	void addAfter(ListNode<T> *at, T d)
 	{
 		if(!exist(at))
@@ -138,6 +186,8 @@ public:
 		if(node->getNext() == NULL)
 			tail = node;
 	}
+
+	//removes head node, makes the next one the head
 	ListNode<T> *removeFromHead()
 	{
 		ListNode<T> *n = head;
@@ -152,6 +202,8 @@ public:
 		}
 		return n;
 	}
+
+	//removes tail node, makes the prev one the head
 	ListNode<T> *removeFromTail()
 	{
 		ListNode<T> *n = tail;
@@ -166,6 +218,8 @@ public:
 		}
 		return n;
 	}
+
+	//removes node at place n
 	ListNode<T> *remove(ListNode<T> *n)
 	{
 		if(!exist(n))
@@ -180,6 +234,8 @@ public:
 		n->setPrev(NULL);
 		return n;
 	}
+
+	//returns node if the data d exists
 	ListNode<T> *exist(T d)
 	{
 		ListNode<T> *j = head;
@@ -191,6 +247,8 @@ public:
 		}
 		return NULL;
 	}
+
+	//returns true or false if the node at n exists
 	bool exist(ListNode<T> *n)
 	{
 		ListNode<T> *j = head;
@@ -202,6 +260,8 @@ public:
 		}
 		return false;
 	}
+
+	//Overloads operator [] to subscript node
 	ListNode<T> &operator[](int i)
 	{
 		ListNode<T> *j = head;
@@ -212,6 +272,9 @@ public:
 			throw std::invalid_argument("index does not exist.");
 		return *j;
 	}
+
+
+	//prints the list
 	void print() const
 	{
 		ListNode<T> *j;
@@ -223,8 +286,6 @@ public:
 		}
 		std::cout<<std::endl;
 	}
-protected:
-	ListNode<T> *head, *tail;
 };
 
 /*
@@ -234,10 +295,17 @@ protected:
 template<class T>
 class TreeNode : public Node<T>
 {
+private:
+    //a treenode stores its childs as a linked list
+	LinkList<T> *childs;
+
 public:
+
+    //Default constructor for tree node with no value, inherits node and has a list of childs
 	TreeNode() : Node<T>()
 	{
 	}
+	//Default constructor for tree node with value d, inherits node and has a list of childs
 	TreeNode(T d) : Node<T>(d)
 	{
 	}
@@ -246,23 +314,22 @@ public:
 	*/
 	void addChild(TreeNode *n)
 	{
+	    childs->addChild(n->getData());
 	}
 	/*
 		Add a child to this node.
 	*/
 	void addChild(T d)
 	{
+	    childs->addFromHead(d);
 	}
 	/*
 		Return the nth child of the node.
 	*/
 	TreeNode *operator[](int n)
 	{
+	    childs[n];
 	}
-
-
-private:
-	LinkList<T> *chile;
 };
 
 /*
@@ -272,6 +339,9 @@ private:
 template<class T>
 class Tree
 {
+private:
+	LinkList<T> *root;
+
 public:
 	Tree()
 	{
@@ -281,12 +351,19 @@ public:
 	*/
 	TreeNode<T> *operator[](int n)
 	{
+	    root[n];
 	}
 	/*
 		return the number of nodes on this tree.
 	*/
 	int count()
 	{
+	    int size=0;
+	    root[0];
+	    for(int i=0;root->;i++){
+            size++;
+	    }
+        return size;
 	}
 	/*
 		print all the node on this tree with level order.
@@ -312,8 +389,6 @@ public:
 	void setRoot(T d)
 	{
 	}
-private:
-	LinkList<T> *root;
 };
 
 int main()
