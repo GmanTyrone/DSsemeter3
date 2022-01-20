@@ -286,6 +286,19 @@ public:
 		}
 		std::cout<<std::endl;
 	}
+
+	int count () const
+	{
+		ListNode<T> *j;
+		int size=0;
+		j = head;
+		while(j != NULL)
+		{
+			size++;
+			j = j->getNext();
+		}
+		return size;
+	}
 };
 
 /*
@@ -358,12 +371,7 @@ public:
 	*/
 	int count()
 	{
-	    int size=0;
-	    root[0];
-	    for(int i=0;root->;i++){
-            size++;
-	    }
-        return size;
+	    return root->count();
 	}
 	/*
 		print all the node on this tree with level order.
