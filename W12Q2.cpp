@@ -1,8 +1,6 @@
 #include <cstdlib>
 #include <iostream>
-#include <stdexcept>
-#include <ctime>
-#include <queue>
+#include <bits/stdc++.h>
 
 using namespace std;
 
@@ -426,9 +424,7 @@ private:
     void preorder(TreeNode<T> *r)
     {
         if (r == NULL) return;
-        //visits node
         cout << r << " ";
-        //then visits childs from left to right
         for (int i = 0;1; i++)
         {
             try
@@ -442,7 +438,6 @@ private:
     {
         if (r == NULL) return;
         int j = 0;
-        //visits child from left to right
         for (int i = 0;1; i++)
         {
             try
@@ -452,9 +447,295 @@ private:
             catch(invalid_argument e){break;}
             j++;
         }
-        //then visits node
         cout << r << " ";
     }
+};
+
+template<class T>
+class BinaryTreeNode : public Node<T>
+{
+public:
+	BinaryTreeNode() : Node<T>()
+	{
+		left = NULL;
+		right = NULL;
+	}
+	BinaryTreeNode(T d) : Node<T>(d)
+	{
+		left = NULL;
+		right = NULL;
+	}
+	BinaryTreeNode(BinaryTreeNode<T> *l, BinaryTreeNode<T> *r) : Node<T>()
+	{
+		left = l;
+		right = r;
+	}
+	BinaryTreeNode(T d, BinaryTreeNode<T> *l, BinaryTreeNode<T> *r) : Node<T>(d)
+	{
+		left = l;
+		right = r;
+	}
+	void setLeft(BinaryTreeNode<T> *l)
+	{
+		left = l;
+	}
+	void setRight(BinaryTreeNode<T> *r)
+	{
+		right = r;
+	}
+	BinaryTreeNode<T> *&getLeft()
+	{
+		return left;
+	}
+	BinaryTreeNode<T> *&getRight()
+	{
+		return right;
+	}
+	bool operator>(BinaryTreeNode<T> n)
+	{
+		if(*(this->data) > *(n.data))
+			return true;
+		return false;
+	}
+	bool operator==(BinaryTreeNode<T> n)
+	{
+		if(*(this->data) == *(n.data))
+			return true;
+		return false;
+	}
+private:
+	BinaryTreeNode<T> *left, *right;
+};
+
+template<class T>
+class BinaryTree
+{
+public:
+	BinaryTree()
+	{
+		root = NULL;
+		count = 0;
+	}
+	/*
+		Convert a general tree to sibling tree
+	*/
+
+	//inicio
+	static BinaryTree<T> *convertFromGeneralTree(Tree<T> *tree)
+	{
+        BinaryTree<T> *Btree = new BinaryTree<T>();
+        if (!tree->getRoot())return Btree;
+
+
+        //Nodo
+        queue<pair<TreeNode<T> *, BinaryTreeNode<T>*>> q;
+        Btree -> root = new BinaryTreeNode<T>(tree -> getRoot() -> getData());
+        q.push(pair<TreeNode<T> *, BinaryTreeNode<T> *>(tree->getRoot(), Btree -> root));
+        Btree -> count++;
+        //q.pop()
+
+        while (!q.empty())
+        {
+              pair<TreeNode<T> *, BinaryTreeNode<T> *> iterator = q.front();
+              for (int i=0;1;i++)
+              {
+                    //cout<<"for here";
+                    BinaryTreeNode<T> *temp;
+
+                    try
+                    {
+                        temp = new BinaryTreeNode<T>((*(iterator.first))[i]->getData());
+                    }
+                    catch (invalid_argument e){break;}
+
+
+
+                    if(i != 0)q.back().second -> setRight(temp);
+                    else iterator.second -> setLeft(temp);
+
+                    //pushes the current node childs
+                    q.push(pair<TreeNode<T> *, BinaryTreeNode<T> *>((*(iterator.first))[i], temp));
+                    Btree->count++;
+              }
+              q.pop();
+              //cout<<"here";
+        }
+        return Btree;
+	}
+
+	//no pasar de aca
+	virtual BinaryTreeNode<T> *insert(T d)
+	{
+		BinaryTreeNode<T> *node = new BinaryTreeNode<T>(d);
+		if(root == NULL)
+		{
+			root = node;
+		}
+		else
+		{
+			int j = count + 1;
+			int k = 1;
+			BinaryTreeNode<T> *cur = root;
+			while(k <= j)
+				k = k << 1;
+			k = k >> 2;
+			while(k > 1)
+			{
+				if(k & j)
+					cur = cur->getRight();
+				else
+					cur = cur->getLeft();
+				k = k >> 1;
+			}
+			if(k & j)
+				cur->setRight(node);
+			else
+				cur->setLeft(node);
+		}
+		count ++;
+	}
+	BinaryTreeNode<T> *remove(BinaryTreeNode<T> *n)
+	{
+		if(!exist(n))
+			return NULL;
+		BinaryTreeNode<T> *last = getLast();
+		if(last == root)
+		{
+			count --;
+			root = NULL;
+			return n;
+		}
+		BinaryTreeNode<T> *lastsFather = getFather(last);
+		if(lastsFather->getLeft() == last)
+			lastsFather->setLeft(NULL);
+		else
+			lastsFather->setRight(NULL);
+		if(last == n)
+		{
+			count --;
+			return n;
+		}
+		if(n != root)
+		{
+			BinaryTreeNode<T> *father = getFather(n);
+			if(father->getLeft() == n)
+				father->setLeft(last);
+			else
+				father->setRight(last);
+		}
+		else
+		{
+			root = last;
+		}
+		last->setLeft(n->getLeft());
+		last->setRight(n->getRight());
+		n->setLeft(NULL);
+		n->setRight(NULL);
+		count --;
+		return n;
+	}
+	BinaryTreeNode<T> *getFather(BinaryTreeNode<T> *n)
+	{
+		if(n == root || !exist(n))
+			return NULL;
+		return _getFather(root, n);
+	}
+	bool exist(BinaryTreeNode<T> *n)
+	{
+		return _exist(root, n);
+	}
+	BinaryTreeNode<T> *getRoot()
+	{
+		return root;
+	}
+	void print()
+	{
+		_print(root, 0);
+	}
+	void swapNode(BinaryTreeNode<T> *node1, BinaryTreeNode<T> *node2)
+	{
+	    if(!exist(node1) || !exist(node2))
+            return;
+        BinaryTreeNode<T> *father1 = getFather(node1);
+        BinaryTreeNode<T> *father2 = getFather(node2);
+        if(father1 != NULL)
+            if(father1->getLeft() == node1)
+                father1->setLeft(node2);
+            else
+                father1->setRight(node2);
+        else
+            root = node2;
+        if(father2 != NULL)
+            if(father2->getLeft() == node2)
+                father2->setLeft(node1);
+            else
+                father2->setRight(node1);
+        else
+            root = node1;
+        BinaryTreeNode<T> *node1L = node1->getLeft();
+        BinaryTreeNode<T> *node1R = node1->getRight();
+        BinaryTreeNode<T> *node2L = node2->getLeft();
+        BinaryTreeNode<T> *node2R = node2->getRight();
+        node1->setLeft(node2L);
+        node1->setRight(node2R);
+        node2->setLeft(node1L);
+        node2->setRight(node1R);
+	}
+protected:
+	BinaryTreeNode<T> *root;
+	int count;
+private:
+	BinaryTreeNode<T> *getLast()
+	{
+		int j = count, k = 1;
+		BinaryTreeNode<T> *cur = root;
+		while(k <= j)
+			k = k << 1;
+		k = k >> 2;
+		while(k > 0)
+		{
+			if(k & j)
+				cur = cur->getRight();
+			else
+				cur = cur->getLeft();
+			k = k >> 1;
+		}
+		return cur;
+	}
+	bool _exist(BinaryTreeNode<T> *r, BinaryTreeNode<T> *n)
+	{
+		if(n == r)
+			return true;
+		if(r->getLeft() && _exist(r->getLeft(), n))
+			return true;
+		if(r->getRight() && _exist(r->getRight(), n))
+			return true;
+		return false;
+	}
+	BinaryTreeNode<T> *_getFather(BinaryTreeNode<T> *r, BinaryTreeNode<T> *n)
+	{
+		if(r == NULL)
+			return NULL;
+		if(r->getLeft() == n || r->getRight() == n)
+			return r;
+		BinaryTreeNode<T> *temp;
+		temp = _getFather(r->getLeft(), n);
+		if(temp != NULL)
+			return temp;
+		temp = _getFather(r->getRight(), n);
+		return temp;
+	}
+	void _print(BinaryTreeNode<T> *r, int n)
+	{
+		if(r == NULL)
+			return;
+		int j;
+		_print(r->getRight(), n + 1);
+		for(j = 0;j < n;j ++)
+			std::cout<<"    ";
+		std::cout<<r<<std::endl;
+		_print(r->getLeft(), n + 1);
+	}
 };
 
 int main()
@@ -475,30 +756,7 @@ int main()
 	tree->levelOrder();
 	tree->preorder();
 	tree->postorder();
-}
 
-/*
-int main()
-{
-    Tree<int> *tree = new Tree<int>();
-    srand(0);
-    for (int j = 0; j < 10; j ++)
-    {
-        if (tree->count() == 0)
-        {
-            tree -> setRoot(j);
-        }
-        else
-        {
-            int k = rand() % tree->count();
-            cout << k << ", " << (*tree)[k] << ", " << j << endl;
-            (*tree)[k] -> addChild(j);
-        }
-    }
-    cout << tree -> count() << endl;
-    tree -> levelOrder();
-    tree -> preorder();
-    tree -> postorder();
-    return 0;
+	BinaryTree<int> *binaryTree = BinaryTree<int>::convertFromGeneralTree(tree);
+	binaryTree->print();
 }
-*/
