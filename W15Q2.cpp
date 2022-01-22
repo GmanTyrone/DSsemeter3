@@ -1,7 +1,11 @@
 #include <cstdlib>
 #include <iostream>
 #include <stdexcept>
+#include <bits/stdc++.h>
 #include <ctime>
+#include <vector>
+
+using namespace std;
 
 template <class T>
 class Node
@@ -223,7 +227,7 @@ public:
 		}
 		std::cout<<std::endl;
 	}
-protected:
+//protected:
 	ListNode<T> *head, *tail;
 };
 
@@ -289,9 +293,16 @@ public:
 			return end[0];
 		return end[1];
 	}
+
 private:
 	WeightedGraphVertex<V, E> *end[2];
 };
+
+template<class V, class E>
+bool compare(WeightedGraphEdge<V, E> *e1,WeightedGraphEdge<V, E> *e2){
+        return e1->data<e2->data;
+        //return e1.wt<e2.wt;
+}
 
 template<class V, class E>
 class WeightedGraph
@@ -329,6 +340,10 @@ public:
 	}
 	void adjList()
 	{
+		if(!this){
+            cout<<"NO MST"<<endl;
+            return;
+		}
 		ListNode<WeightedGraphVertex<V, E> *> *cur = &(*vertex)[0];
 		while(cur != NULL)
 		{
@@ -350,7 +365,117 @@ public:
 	*/
 	WeightedGraph *minimumSpanningTree(WeightedGraphVertex<V, E> *v)
 	{
+        WeightedGraph* MST = new WeightedGraph();
+        //Basicamente una matriz de ajacencia vertexCount x vertexCount
+        vector<vector<E>> weight(vertexCount, vector<E>(vertexCount, 0));
+        //parent first is -1
+        vector<int> parent(vertexCount, -1);
+        //sets key to infinity
+        vector<E> key(vertexCount, INT_MAX);
+        //none visited
+        vector<bool> visited(vertexCount, false);
 
+
+        //Usa el addcost para la matriz de adjacencia
+        addCost(weight);
+
+        int root = v -> getData() - 'a';
+        key[root] = 0;
+        parent[root] = -1;
+
+        for (int i = 0; i < vertexCount; i++)
+        {
+            //Minimum key of the vertex
+            //basicamente el minimo vertice de un subset_?
+            int u = minKey(key, visited);
+            if (u == -1) break;
+            //parent del min vertice
+            int pre = parent[u];
+
+            //Agregar al arbol
+            visited[u] = true;
+            MST-> addVertex(u + 'a');
+
+
+
+            if (pre != -1)
+            {
+                MST-> addLink((*MST)[search(MST, pre + 'a')], (*MST)[search(MST, u + 'a')], key[u]);
+            }
+
+            //to
+            for (int j = 0; j < vertexCount; j++)
+            {
+                if (weight[u][j] != 0 && weight[u][j] < key[j] && !visited[j])
+                {
+                    parent[j] = u;
+                    key[j] = weight[u][j];
+                }
+            }
+        }
+
+
+        //checks if every vertex has been visited
+        for (int i = 0; i < vertexCount; i++)
+        {
+            if (!visited[i]) return NULL;
+        }
+
+        /*if(MST==NULL){
+            cout<<"NO MST"<<endl;
+            return NULL;
+        }*/
+        return MST;
+
+    }
+
+    int search(WeightedGraph *g, char c)
+    {
+        ListNode<WeightedGraphVertex<V, E>*> *t = g -> vertex -> head;
+        for (int i = 0; t != NULL; i++)
+        {
+            if (t -> getData() -> getData() == c) return i;
+            t = t -> getNext();
+        }
+        return -1;
+    }
+
+    void addCost(vector<vector<E>>& cost)
+    {
+        ListNode<WeightedGraphVertex<V, E> *> *cur = &(*vertex)[0];
+        while (cur != NULL)
+        {
+            WeightedGraphVertex<V, E> *temp = cur -> getData();
+            ListNode<WeightedGraphEdge<V, E>*> *e = (*temp)[0];
+            while (e != NULL)
+            {
+                int i = temp -> getData() - 'a';
+                int j = e -> getData() -> getAnotherEnd(temp) -> getData() - 'a';
+                int c = e -> getData() -> getData();
+                if (cost[i][j] == 0 || (cost[i][j] != 0 && c < cost[i][j]))
+                {
+                    cost[i][j] = c;
+                }
+                e = e -> getNext();
+            }
+            cur = cur -> getNext();
+        }
+    }
+
+    int minKey(vector<E> key, vector<bool> visited)
+    {
+        E mn = INT_MAX;
+        int index = -1;
+        //goes thru each vertex and if it is visited gets its number when its the lowest
+        for (int i = 0; i < vertexCount; i++)
+        {
+            if (!visited[i] && key[i] < mn)
+            {
+                mn = key[i];
+                index = i;
+            }
+        }
+        return index;
 	}
 private:
 	LinkList<WeightedGraphVertex<V, E> *> *vertex;
@@ -380,4 +505,3 @@ int main()
 	tree->adjList();
 	return 0;
 }
-
