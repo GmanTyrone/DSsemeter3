@@ -115,7 +115,7 @@ public:
         //puts 0's
         for(j = 0;j < s;j++){
                 for(k = 0;k < s;k++){
-                        maze[j][k] == 0;
+                        maze[j][k] = 0;
                 }
         }
 
@@ -125,12 +125,13 @@ public:
         int x=rand()%s;
         int y=rand()%s;
 
-        while(unos>0&&(maze[x][y]==1||(x==0&&y==0)||(x==size-1&&y==size-1)))
-        {
-            x=rand()%s;
-            y=rand()%s;
-            maze[x][y]=1;
-            --unos;
+        while (unos > 0) {
+            int x = rand() % s;
+            int y = rand() % s;
+            if (maze[x][y] == 0 && !(x == 0 && y == 0) && !(x == s - 1 && y == s - 1)) {
+                    maze[x][y] = 1;  // Place a wall
+                    --unos;
+                }
         }
 	}
 	/*
